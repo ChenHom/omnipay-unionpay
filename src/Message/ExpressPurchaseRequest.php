@@ -29,7 +29,7 @@ class ExpressPurchaseRequest extends AbstractRequest
             //证书ID
             'certId'         => $this->getTheCertId(),
             //交易类型
-            'txnType'        => $this->getTxnSubType() ?: '01',
+            'txnType'        => $this->getTxnType() ?: '01',
             //交易子类
             'txnSubType'     => $this->getTxnSubType() ?: '01',
             //业务类型
@@ -64,7 +64,7 @@ class ExpressPurchaseRequest extends AbstractRequest
 
         $data = $this->filter($data);
 
-        $data['signature'] = $this->sign($data);
+        $data['signature'] = $this->sign($data, $this->getVersion() === '5.1.0' ? 'RSA2' : 'RSA');
 
         return $data;
     }
